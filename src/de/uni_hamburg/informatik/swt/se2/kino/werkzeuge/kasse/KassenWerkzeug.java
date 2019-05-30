@@ -3,6 +3,7 @@ package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import de.uni_hamburg.informatik.swt.se2.kino.Beobachter;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kino;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Tagesplan;
@@ -19,7 +20,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  * @author SE2-Team
  * @version SoSe 2018
  */
-public class KassenWerkzeug
+public class KassenWerkzeug implements Beobachter
 {
     // Das Material dieses Werkzeugs
     private Kino _kino;
@@ -54,6 +55,10 @@ public class KassenWerkzeug
         _ui = new KassenWerkzeugUI(_platzVerkaufsWerkzeug.getUIPanel(),
                 _datumAuswaehlWerkzeug.getUIPanel(),
                 _vorstellungAuswaehlWerkzeug.getUIPanel());
+
+        // Registriere Beobachter
+        _datumAuswaehlWerkzeug.registriereBeobachter(this);
+        _vorstellungAuswaehlWerkzeug.registriereBeobachter(this);
 
         registriereUIAktionen();
         setzeTagesplanFuerAusgewaehltesDatum();
@@ -118,5 +123,16 @@ public class KassenWerkzeug
     private Vorstellung getAusgewaehlteVorstellung()
     {
         return _vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung();
+    }
+
+    @Override
+    public void reagiereAufAenderungen(Object obj)
+    {
+        if (obj instanceof DatumAuswaehlWerkzeug) {
+            System.out.println("Reagiert: Datum");
+        }
+        else if (obj instanceof VorstellungsAuswaehlWerkzeug) {
+            System.out.println("Reagiert: Vorstellung");
+        }
     }
 }

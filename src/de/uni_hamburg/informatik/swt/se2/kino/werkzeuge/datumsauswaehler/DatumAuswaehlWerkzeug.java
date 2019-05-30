@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import de.uni_hamburg.informatik.swt.se2.kino.Beobachtbar;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 
 /**
@@ -16,7 +17,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
  * @author SE2-Team
  * @version SoSe 2018
  */
-public class DatumAuswaehlWerkzeug
+public class DatumAuswaehlWerkzeug extends Beobachtbar
 {
     private DatumAuswaehlWerkzeugUI _ui;
     private Datum _ausgewaehltesDatum;
@@ -27,6 +28,8 @@ public class DatumAuswaehlWerkzeug
      */
     public DatumAuswaehlWerkzeug()
     {
+        super();
+
         _ausgewaehltesDatum = Datum.heute();
         _ui = new DatumAuswaehlWerkzeugUI(
                 _ausgewaehltesDatum.getFormatiertenString());
@@ -86,6 +89,7 @@ public class DatumAuswaehlWerkzeug
             public void actionPerformed(ActionEvent e)
             {
                 zurueckButtonWurdeGedrueckt();
+                meldeAenderungen();
             }
         });
 
@@ -95,6 +99,7 @@ public class DatumAuswaehlWerkzeug
             public void actionPerformed(ActionEvent e)
             {
                 weiterButtonWurdeGedrueckt();
+                meldeAenderungen();
             }
         });
     }
